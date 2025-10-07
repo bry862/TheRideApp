@@ -27,6 +27,7 @@ struct ContentView: View {
     @State var size_:CGFloat = 300
     @State var passenger_location_name = "Searching..."
 
+
     
     //Work in progress
     @State var pickup = ""
@@ -43,18 +44,18 @@ struct ContentView: View {
                 Spacer()
 
             VStack{
-                infoField(title: "Pickup", text: $pickup)
+                infoField(title: "Pickup", text: $pickup, disabledBool: true)
                 HStack{
-                    infoField(title: "Dropoff", text: $dropoff).padding(.leading,48)
+                    infoField(title: "Dropoff", text: $dropoff, disabledBool: false).padding(.leading,48)
                     ZStack {
                         RoundedRectangle(cornerRadius: 8).fill(.blue).frame(width: 40, height: 30)
                         Button (action: {
                             LocationsArray.removeAll() //The array will be populated with new results.
-                            if ( !pickup.isEmpty && !dropoff.isEmpty) {
+                            if (!dropoff.isEmpty) {
                                 PassengerCurrentLocation = GlobalLocationManager.getPassengerLocationObject()
                                 
                                 findLocations(near: PassengerCurrentLocation, named: dropoff)
-                            
+                                
                             }
                         }) {
                             Image(systemName: "arrow.right").foregroundColor(.white)
@@ -393,18 +394,21 @@ struct infoField: View {
     
     @State var title: String
     @Binding var text: String
+    @State var disabledBool: Bool
+    
     @FocusState var isTyping: Bool
     var body: some View{
         ZStack (alignment: .leading) {
-            TextField("", text: $text).padding(.leading)
+            TextField(disabledBool ? "Capital One Café" : "", text: $text).padding(.leading)
                 .frame(width: 250, height: 35).focused($isTyping)
                 .background(isTyping ? .blue : Color.primary, in:RoundedRectangle(cornerRadius: 8).stroke(style: StrokeStyle(lineWidth: 1)))
                 .onTapGesture {
                     isTyping.toggle()
                 }
+                .disabled(disabledBool)
                 
             
-            Text(title)
+            Text(disabledBool ? "" : title)
                 .background(
                     Color("TextFieldColor").opacity(isTyping || !text.isEmpty ? 1: 0)
                 )
