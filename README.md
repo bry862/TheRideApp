@@ -4,7 +4,7 @@ Apple's Developer Documentation, Apple's Swift Guidelines, and overflow discussi
 
 MyRide demonstrates my understanding of front-end, backend, and frameworks within Apple's mobile development environment for iOS. From following iOS development guidelines to designing 
 UI components to enhance user experience, MyRide shows growth and learning within mobile development.  
-
+![Demonstration Video] (https://github.com/bry862/TheRideApp/blob/main/AppDemo.gif?raw=true)
 # Key Features
 - Interactive map using Apple Maps via the MapKit framework
 - Map centers according to the user's live location, due to XCode limitations location is simulated to a café in New York.
