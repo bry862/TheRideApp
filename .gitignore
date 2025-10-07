@@ -8,3 +8,6 @@ DerivedData/
 # User settings
 *.xcuserstate
 *.xcuserdata/
+
+xcuserdata/
+*.xcuserstate
