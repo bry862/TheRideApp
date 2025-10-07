@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>UILaunchStoryboardName</key>
+	<string>Storyboard</string>
+	<key>CFBundleExecutable</key>
+	<string>TheRideApp</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.notsure.Passenger.TheRideApp</string>
+	<key>CFBundleVersion</key>
+	<string>1</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>1: We need your location to match and manage your rides</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>2: Did this show up?</string>
+</dict>
+</plist>
