@@ -72,9 +72,11 @@ struct HomePage: View {
     
     
     //InfoUI Variables
-    @State var InfoUIHeight: CGFloat = 200
-    @State var dragOffset:CGSize = .zero
-    @State var endOffSet: CGSize = .zero
+    @State var isExtended = false
+    
+    @State var call_driver_information_view = false;
+    @State var call_my_information_view = false;
+    @State var call_destination_information_view = false;
     
     
     
@@ -250,72 +252,25 @@ struct HomePage: View {
             
             
             //MARK: InfoUI Call VStack
-            VStack{ GeometryReader{ geo in
+            VStack{
                 
-                //My bottom sheet
-                InfoUI(passenger: $passenger, endOffSet: $endOffSet, requestAccepted: $requestAccpeted)
-                    .frame(width: geo.size.width , height: 800,  alignment: .bottom,)
-                    .cornerRadius(20)
-                    .contentShape(Rectangle())
-                    .position(
-                        x:geo.size.width/2,
-                        y:geo.size.height*1.4 + (endOffSet.height + dragOffset.height)
-                    )
-                    .ignoresSafeArea()
-                   
-                    .gesture(
-                        DragGesture(minimumDistance: 0)
-                            .onChanged{ value in
-                                
-                                if (value.translation.height < 0){
-                                    
-                                    if (value.translation.height < -450){
-                                        dragOffset.height = -450
-                                        
-                                    } else {
-                                        dragOffset.height = value.translation.height
-                                    }
-                                
-                                } else { //meainign its positive, dragging down
-                                    if (value.translation.height > 690){
-                                        dragOffset.height = 690
-                                    } else {
-                                        dragOffset.height = value.translation.height
-                                    }
-                                }
-                            
-                                
-                                
-                                print(value.translation.height)
-                                
-                            }
-                        
-                            .onEnded{value in
-                                if (value.translation.height < -50){
-                                    endOffSet.height = -600
-                                }
-                                
-                                else if (value.translation.height > 50){
-                                    endOffSet.height = 0
-                                }
-                                
-                                dragOffset = .zero
-                            }
-                        
-                        
-                        
-                        
-                        
-                            
-                            
-                            
-                    )
                 
+                InfoUI(passenger: $passenger, isExtended: $isExtended, requestAccepted: $requestAccpeted, call_driver_information_view: $call_driver_information_view, call_my_information_view: $call_my_information_view, call_destination_information_view: $call_destination_information_view)
+                    .frame(height: isExtended ? geo.size.height/1.5 : 100)
+                    
+            
             }
-                
-                
-                
-            }
+                .frame(width: geo.size.width, height: geo.size.height, alignment: .bottom)
+                .onTapGesture {
+                    
+                    call_driver_information_view = false;
+                    call_my_information_view = false;
+                    call_destination_information_view = false;
+                    withAnimation(.spring()){
+                        isExtended.toggle()
+                    }
+                    
+                }
                 
                 
         }
@@ -462,21 +417,29 @@ struct HomePage: View {
 struct InfoUI: View {
     
     @Binding var passenger: PassengerObjects
-    @Binding var endOffSet: CGSize
+    @Binding var isExtended: Bool
     @Binding var requestAccepted: Bool
     
-    @State var call_driver_information_view = false;
-    @State var call_my_information_view = false;
-    @State var call_destination_information_view = false;
+    @Binding var call_driver_information_view: Bool;
+    @Binding var call_my_information_view: Bool;
+    @Binding var call_destination_information_view: Bool;
     
+    
+   
+    @State var extendedPadding:CGFloat = 0 ;
+    
+
     
     
     var body: some View {
         
         ZStack{ GeometryReader{ geo in
             
+
+            
             Rectangle()
                 .fill(.thinMaterial)
+                .cornerRadius(40)
             
             HStack{
                 
@@ -490,7 +453,11 @@ struct InfoUI: View {
                         call_my_information_view = false;
                         call_destination_information_view = false;
                         
-                        endOffSet.height = -600
+                        if(!isExtended){
+                            withAnimation(.spring()) {
+                                isExtended = true;
+                            }
+                        }
                         
                     })
                     {
@@ -519,7 +486,14 @@ struct InfoUI: View {
                         call_driver_information_view = false;
                         call_destination_information_view = false;
                         
-                        endOffSet.height = -600
+                        if(!isExtended){
+                            withAnimation(.spring()) {
+                                isExtended = true;
+                                
+                                
+                            }
+                        }
+
                         
                     }) {
                         Image(systemName: "person")
@@ -543,7 +517,12 @@ struct InfoUI: View {
                         call_driver_information_view = false;
                         call_my_information_view = false;
                         
-                        endOffSet.height = -600
+                        if(!isExtended){
+                            withAnimation(.spring()) {
+                                isExtended = true;
+                            }
+                        }
+
                         
                     }) {
                         Image(systemName: "flag")
@@ -552,8 +531,9 @@ struct InfoUI: View {
                     .disabled(!requestAccepted)
                 }
             }
-            .frame(width: geo.size.width, height: geo.size.height, alignment: .top)
-            .padding(.top,40)
+            .frame(width: geo.size.width, height: geo.size.height, alignment: isExtended ? .top : .center)
+            
+            .padding(extendedPadding)
             
             Divider()
             
