@@ -10,19 +10,21 @@ import Foundation
 //A requestObject wil be used to store a passengers request information once a driver pick it up
 struct requestObject {
     
-    var passengerName = String ()
+    var requestID = String ()
     var pickUp = (Double(), Double())
     var dropOff = (Double(), Double())
-    var requestID = String ()
+    var pickupName = String()
+    var dropoffName = String()
+
 }
 
 
 //A driverObject has all these attributes. 
 struct driverObject {
     
-    let id = UUID()
+ 
     var name = String()
-    var requestInformation = requestObject()
+    
 }
 
 

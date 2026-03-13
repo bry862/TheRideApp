@@ -10,7 +10,7 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @State var driver = driverObject()
+    @State var driver = driverObject() //Driver object to hold and facilitate JSON navigation. 
     @State var loggedin = false
     
     

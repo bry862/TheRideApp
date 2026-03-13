@@ -7,17 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C9CC98DA2F634F67009002BB /* TheDriverAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CC98D52F634F67009002BB /* TheDriverAppApp.swift */; };
 		C9DC49722F06CF4300925033 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = C9DC49712F06CF4300925033 /* FirebaseAnalytics */; };
 		C9DC49742F06CF4300925033 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = C9DC49732F06CF4300925033 /* FirebaseAuth */; };
 		C9DC49762F06CF4300925033 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = C9DC49752F06CF4300925033 /* FirebaseDatabase */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C9CC98D52F634F67009002BB /* TheDriverAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheDriverAppApp.swift; sourceTree = "<group>"; };
 		C9DC49442F05CC2D00925033 /* TheDriverApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TheDriverApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		C9DC497B2F06D08C00925033 /* Exceptions for "TheDriverApp" folder in "TheDriverApp" target */ = {
+		C9CC98E02F635F04009002BB /* Exceptions for "TheDriverApp" folder in "TheDriverApp" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
@@ -30,7 +32,7 @@
 		C9DC49462F05CC2D00925033 /* TheDriverApp */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				C9DC497B2F06D08C00925033 /* Exceptions for "TheDriverApp" folder in "TheDriverApp" target */,
+				C9CC98E02F635F04009002BB /* Exceptions for "TheDriverApp" folder in "TheDriverApp" target */,
 			);
 			path = TheDriverApp;
 			sourceTree = "<group>";
@@ -54,6 +56,7 @@
 		C9DC493B2F05CC2D00925033 = {
 			isa = PBXGroup;
 			children = (
+				C9CC98D52F634F67009002BB /* TheDriverAppApp.swift */,
 				C9DC49462F05CC2D00925033 /* TheDriverApp */,
 				C9DC49452F05CC2D00925033 /* Products */,
 			);
@@ -147,6 +150,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9CC98DA2F634F67009002BB /* TheDriverAppApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
