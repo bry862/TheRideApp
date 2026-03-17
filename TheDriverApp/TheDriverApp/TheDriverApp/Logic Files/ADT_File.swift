@@ -15,6 +15,8 @@ struct requestObject {
     var dropOff = (Double(), Double())
     var pickupName = String()
     var dropoffName = String()
+    
+    var requestignPassangerName = String ()
 
 }
 

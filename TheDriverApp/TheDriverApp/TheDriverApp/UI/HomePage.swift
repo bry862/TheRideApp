@@ -34,39 +34,84 @@ struct LoginPage: View {
 }
 
 
-
-
-
 struct HomePage: View {
     @Binding var driver: driverObject
     
     @State var requestArray: [requestObject] = []
-
+    @State var TheAcceptedRequest: requestObject = requestObject()
+    
+    @State var isExtended = false
     
     
     var body: some View {
         
         ZStack{
             GeometryReader{geo in
-                VStack{
-                    Text("Hello, World!")
-                        .frame(width: geo.size.width, height: geo.size.height, alignment: .top)
-                }
                 
+                //Name and scroll view fro availabe requests
                 VStack{
-                    slideUp(driver: $driver, requestArray: $requestArray)
-                        .frame(width: geo.size.width, height: geo.size.height/2)
-                }.frame(width: geo.size.width, height: geo.size.height, alignment: .bottom)
+                    
+                    //Name
+                    HStack {
+                        Image(systemName: "person.fill")
+                        Text(driver.name)
+                    }
+                    
+                    Text("Availabe Request's Near You:")
+                    
+                    //Scroll view for availabe request
+                    ScrollView {
+                        
+                        ForEach (requestArray, id: \.requestID){ req in
+                            
+                            HStack {
+                                Text("From \(req.pickupName) to \(req.dropoffName)")
+                                
+                                Button (action: {
+                                    acceptRequest(req)
+                                    print(TheAcceptedRequest.pickupName)
+
+                                    
+                                   
+
+                                }) {
+                                    Image(systemName: "checkmark")
+                                }
+                            }
+                        }
+                    }
+                    
+                }.frame(width: geo.size.width, height: geo.size.height, alignment: .center)
+                
+              
+
+                
+                //slide up
+                VStack{
+                    slideUp(driver: $driver, TheAcceptedRequest: $TheAcceptedRequest,isExtended: $isExtended)
+                        .frame(width: geo.size.width, height: isExtended ? geo.size.height/1.5 : 100)
+                }
+                   
+                .frame(width: geo.size.width, height: geo.size.height, alignment: .bottom)
+                .offset(y:50)
+                .onTapGesture {
+                    withAnimation (.spring()){
+                        isExtended.toggle()
+                    }
+                }
+               
             
             }
-        }.onAppear{
-          listenForRequest()
         }
+            .onAppear{ //Called on ZStack//
+                listenForRequest()
+            }
         
     
             
     }
     
+    //MARK: HomePage Functions
     func listenForRequest () -> Void {
         
         //Swift type
@@ -126,6 +171,27 @@ struct HomePage: View {
         
     }
     
+  
+    
+
+    func acceptRequest(_ acceptedRequest: requestObject) {
+        
+        
+        requestArray.removeAll() //Adjust the array, first clear it then add the selected request
+        
+        requestArray.append(acceptedRequest)
+        
+        TheAcceptedRequest = acceptedRequest
+        
+        //Adjust the path in firebase, request accepted = true
+        Database.database().reference().child("Request").child("\(acceptedRequest.requestID)").child("Request Information").child("Current Status").setValue(true)
+        
+        //Adjust the path in firebase, assign driver name
+        Database.database().reference().child("Request").child("\(acceptedRequest.requestID)").child("Request Information").child("Assigned Driver").setValue("\(driver.name)")
+        
+        
+        
+    }
 
     
 
@@ -137,45 +203,46 @@ struct slideUp: View{
     
     @Binding var driver: driverObject
     
-    @Binding var requestArray: [requestObject]
+    @Binding var TheAcceptedRequest: requestObject
+    
+    @Binding var isExtended: Bool
     
     var body: some View{
         ZStack{
+            
+            
             GeometryReader{geo in
                 
-                Rectangle()
-                    .fill(Material.ultraThick)
                 
+                    
+                
+                Rectangle()
+                    .fill(Material.thin)
+                    .cornerRadius(10)
+                VStack{
+                    Capsule()
+                    
+                        .fill(.gray)
+                        .cornerRadius(40)
+                        .frame(width: 50, height: 5)
+                        .padding(.top)
+                }.frame(width: geo.size.width, height: geo.size.height, alignment: .top)
                 
                 
                 //Driver name, request availabe label
                 VStack{
-                    HStack {
-                        Image(systemName: "person.fill")
-                        Text(driver.name)
+                    if(isExtended){
+                        Text("Pick up: \(TheAcceptedRequest.pickupName)")
+                        Text("Drop off: \(TheAcceptedRequest.dropoffName)")
+                        Text("Passangers Name: \(TheAcceptedRequest.requestignPassangerName)")
+                        
                     }
                     
-                    Text("Availabe Request's Near You:")
+                   
                 }
+                    .frame(width: geo.size.width, height: geo.size.height, alignment: .center)
                 
-                //Scroll view showing all request and check mark
-                VStack{
-                    ScrollView {
-                        
-                        ForEach (requestArray, id: \.requestID){ req in
-                            
-                            HStack {
-                                Text("From \(req.pickupName) to \(req.dropoffName)")
-                                
-                                Button (action: {
-                                    acceptRequest(req)
-                                }) {
-                                    Image(systemName: "checkmark")
-                                }
-                            }
-                        }
-                    }
-                }
+
                 
                 
                 
@@ -185,23 +252,6 @@ struct slideUp: View{
         }
     }
     
-    //MARK: slideUp Functions
-    
-    
-    func acceptRequest(_ acceptedRequest: requestObject) {
-        
-        
-        requestArray.removeAll() //Adjust the array, first clear it then add the selected request
-        
-        requestArray.append(acceptedRequest)
-        
-        //Adjust the path in firebase, request accepted = true
-        Database.database().reference().child("Request").child("\(acceptedRequest.requestID)").child("Request Information").child("Current Status").setValue(true)
-        
-        //Adjust the path in firebase, assign driver name
-        Database.database().reference().child("Request").child("\(acceptedRequest.requestID)").child("Request Information").child("Assigned Driver").setValue("\(driver.name)")
-        
-        
-    }
+
 }
 

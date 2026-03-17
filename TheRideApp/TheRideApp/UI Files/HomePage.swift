@@ -261,6 +261,7 @@ struct HomePage: View {
             
             }
                 .frame(width: geo.size.width, height: geo.size.height, alignment: .bottom)
+            
                 .onTapGesture {
                     
                     call_driver_information_view = false;
